@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', [
+            'except' => ['show', 'create', 'store', 'index']
+        ]);
+    }
+    public function index()
+    {
+        $users = User::query()->paginate(10);
+        return view('users.index', compact('users'));
+    }
     //
     public function create()
     {
